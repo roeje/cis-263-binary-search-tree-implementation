@@ -81,7 +81,8 @@ public:
 
     vector<T> get_range(const T &k1, const T &k2) const {
         vector<T> result;
-//        _get_range(root, result, k1, k2);
+        auto tempVec = &result;
+        _get_range(tempVec, root, k1, k2);
         return result;
     }
 
@@ -182,6 +183,7 @@ private:
     }
 
     int _number_of_nodes(gv_node *t) const {
+        /*Runtime is approximately O(N)*/
         if (t == nullptr)
             return 0;
         else {
@@ -190,6 +192,7 @@ private:
     }
 
     int _number_of_leaves(gv_node *t) const {
+        /*Runtime is O(N)*/
         if (t == nullptr)
             return 0;
         if (t->right == nullptr && t->left == nullptr)
@@ -200,6 +203,7 @@ private:
     }
 
     int _number_of_full_nodes(gv_node *t) const {
+        /*Runtime O(N)*/
         if (t == nullptr)
             return 0;
         if (t->right != nullptr && t->left != nullptr)
@@ -213,6 +217,8 @@ private:
         if (node == nullptr) {
             return;
         }
+
+        /*If both subtrees are null, node is leaf and is removed*/
         if (node->right == nullptr && node->left == nullptr) {
             s->insert(node->data);
             remove(node->data, node);
@@ -222,17 +228,26 @@ private:
         _remove_leaves(node->left, s);
     }
 
-    void _get_range(vector<T> &result, gv_node *curr, const int k1, const int k2) const {
-
-        if (curr == nullptr) {
+    /*Returns all value in a tree that are within the range of k1-k2*/
+    void _get_range(vector<T> *&vec, gv_node *t, const int k1, const int k2) const {
+        if (t == nullptr) {
             return;
         }
+        if (t->data >= k1 && t->data <= k2) {
 
-        if (curr->data >= k1 && curr->data <= k2) {
-            result.push_back(curr->data);
+            /*Inorder search, parent data is only inserted into vector after left subtree is searched */
+            _get_range(vec, t->left, k1, k2);
+            vec->push_back(t->data);
+            _get_range(vec, t->right, k1, k2);
         }
-        _get_range(result, curr->left, k1, k2);
-        _get_range(result, curr->right, k1, k2);
+
+        /*If node data is < k1 or > k2, search only the right and left subtrees respectively */
+        else if (t->data < k1) {
+            _get_range(vec, t->right, k1, k2);
+        }
+        else if (t->data > k2) {
+            _get_range(vec, t->left, k1, k2);
+        }
     }
 
 };

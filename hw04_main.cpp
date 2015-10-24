@@ -13,14 +13,8 @@ TEST_CASE("HW04 of nodes")
         t1.insert (x);
 
     SECTION ("Node counting") {
-        cout << data.size() << endl;
-        cout << t1.number_of_nodes() << endl;
         REQUIRE (t1.number_of_nodes() == data.size());
-        cout << 5 << endl;
-        cout << t1.number_of_leaves() << endl;
         REQUIRE (t1.number_of_leaves() == 5);
-        cout << 4 << endl;
-        cout << t1.number_of_full_nodes() << endl;
         REQUIRE (t1.number_of_full_nodes() == 4);
     }
 
