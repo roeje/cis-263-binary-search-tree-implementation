@@ -1,5 +1,7 @@
 /**
  * Binary Search Tree (expanded definition)
+ *
+ * Jesse Roe, Brandon Attala, Tyler Paquet
  */
 
 #ifndef BINARY_SEARCH_TREE_H
@@ -213,19 +215,19 @@ private:
         }
     }
 
-    void _remove_leaves(gv_node *&node, set<T> *&s) {
-        if (node == nullptr) {
+    void _remove_leaves(gv_node *&t, set<T> *&s) {
+        if (t == nullptr) {
             return;
         }
 
-        /*If both subtrees are null, node is leaf and is removed*/
-        if (node->right == nullptr && node->left == nullptr) {
-            s->insert(node->data);
-            remove(node->data, node);
+        /*If both subtrees are null, t is leaf and is removed*/
+        if (t->right == nullptr && t->left == nullptr) {
+            s->insert(t->data);
+            remove(t->data, t);
             return;
         }
-        _remove_leaves(node->right, s);
-        _remove_leaves(node->left, s);
+        _remove_leaves(t->right, s);
+        _remove_leaves(t->left, s);
     }
 
     /*Returns all value in a tree that are within the range of k1-k2*/
